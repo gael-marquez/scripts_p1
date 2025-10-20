@@ -21,12 +21,12 @@ FILES_TO_BACKUP = [
 ]
 
 # Directorio de destino LOCAL (para pruebas)
-BACKUP_DIR_LOCAL = '/home/gael-marquez/backups'
+BACKUP_DIR_LOCAL = '/home/gael/backups'
 
 # Directorio de destino REMOTO (descomenta cuando pruebes con la otra VM)
 REMOTE_USER = 'gael'
 REMOTE_HOST = '192.168.86.34'
-REMOTE_PATH = 'backups_remoto'
+REMOTE_PATH = '/backups_remoto'
 
 # Número de backups a mantener (rotación)
 MAX_BACKUPS = 7
