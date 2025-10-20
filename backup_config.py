@@ -24,16 +24,15 @@ FILES_TO_BACKUP = [
 BACKUP_DIR_LOCAL = '/home/gael-marquez/backups'
 
 # Directorio de destino REMOTO (descomenta cuando pruebes con la otra VM)
-# BACKUP_DIR_REMOTE = '/mnt/remote_backup'
-# REMOTE_USER = 'usuario'
-# REMOTE_HOST = '192.168.1.100'
-# REMOTE_PATH = '/home/usuario/backups'
+REMOTE_USER = 'gael'
+REMOTE_HOST = '192.168.86.34'
+REMOTE_PATH = 'backups_remoto'
 
 # Número de backups a mantener (rotación)
 MAX_BACKUPS = 7
 
 # Archivo de log
-LOG_FILE = '/var/log/backup_config.log'
+LOG_FILE = '/home/gael/backup_config.log'
 
 # ==================== CONFIGURACIÓN DE LOG ====================
 
@@ -166,7 +165,7 @@ def main():
     logger.info("="*60)
     
     # Modo de operación (cambia a 'remote' cuando configures la VM remota)
-    MODE = 'local'  # 'local' o 'remote'
+    MODE = 'remote'  # 'local' o 'remote'
     
     if MODE == 'local':
         # FASE 1: Backup local (prueba)
@@ -186,14 +185,13 @@ def main():
     
     elif MODE == 'remote':
         # FASE 2: Backup remoto (descomentar cuando estés listo)
-        # success = backup_files_remote(
-        #     FILES_TO_BACKUP, 
-        #     REMOTE_USER, 
-        #     REMOTE_HOST, 
-        #     REMOTE_PATH
-        # )
-        # return 0 if success else 1
-        pass
-    
+        success = backup_files_remote(
+            FILES_TO_BACKUP,
+            REMOTE_USER,
+            REMOTE_HOST,
+            REMOTE_PATH
+        )
+        return 0 if success else 1
+
 if __name__ == "__main__":
     exit(main())
