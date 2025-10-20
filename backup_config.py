@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 """
 Script de backup de archivos de configuración
-Versión: 1.0 - Backup local (prueba)
-Autor: Copilot
 """
 
 import os
@@ -13,6 +11,10 @@ from pathlib import Path
 
 # ==================== CONFIGURACIÓN ====================
 
+# Obtener el usuario actual (funciona con sudo)
+CURRENT_USER = os.environ.get('SUDO_USER') or os.environ.get('USER') or 'gael'
+HOME_DIR = f'/home/{CURRENT_USER}'
+
 # Archivos a respaldar (modifica estas rutas según tus necesidades)
 FILES_TO_BACKUP = [
     '/etc/hostname',
@@ -21,20 +23,23 @@ FILES_TO_BACKUP = [
 ]
 
 # Directorio de destino LOCAL (para pruebas)
-BACKUP_DIR_LOCAL = '/home/gael/backups'
+BACKUP_DIR_LOCAL = f'{HOME_DIR}/backups'
 
-# Directorio de destino REMOTO (descomenta cuando pruebes con la otra VM)
-REMOTE_USER = 'gael'
-REMOTE_HOST = '192.168.86.34'
+# Directorio de destino REMOTO (configurar IP del servidor de backup)
+REMOTE_USER = CURRENT_USER
+REMOTE_HOST = '192.168.86.34'  # Cambiar por la IP de tu servidor de backup
 REMOTE_PATH = '/backups_remoto'
 
 # Número de backups a mantener (rotación)
 MAX_BACKUPS = 7
 
 # Archivo de log
-LOG_FILE = '/home/gael/backup_config.log'
+LOG_FILE = f'{HOME_DIR}/backup_config.log'
 
 # ==================== CONFIGURACIÓN DE LOG ====================
+
+# Crear directorio de logs si no existe
+os.makedirs(HOME_DIR, exist_ok=True)
 
 logging.basicConfig(
     level=logging.INFO,
@@ -162,6 +167,8 @@ def main():
     """Función principal"""
     logger.info("="*60)
     logger.info("INICIANDO PROCESO DE BACKUP")
+    logger.info(f"Usuario: {CURRENT_USER}")
+    logger.info(f"Directorio home: {HOME_DIR}")
     logger.info("="*60)
     
     # Modo de operación (cambia a 'remote' cuando configures la VM remota)
@@ -184,7 +191,7 @@ def main():
             return 1
     
     elif MODE == 'remote':
-        # FASE 2: Backup remoto (descomentar cuando estés listo)
+        # FASE 2: Backup remoto
         success = backup_files_remote(
             FILES_TO_BACKUP,
             REMOTE_USER,
