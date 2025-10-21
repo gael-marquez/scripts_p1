@@ -54,5 +54,6 @@ echo "==================================================="
 
 } | tee "$ARCHIVO"
 
+# Este mensaje solo se muestra en pantalla, NO se guarda en el archivo
 echo ""
-echo "✓ Evidencia guardada en: $ARCHIVO"
+echo "Evidencia guardada en: $ARCHIVO"
